@@ -15,10 +15,10 @@ public partial class Mvc6DbContext : DbContext
     {
     }
 
-    public virtual DbSet<Course> Courses { get; set; }
-    public virtual DbSet<Student> Students { get; set; }
-    public virtual DbSet<Teacher> Teachers { get; set; }
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<Course> Courses { get; set; } = null!;
+    public virtual DbSet<Student> Students { get; set; } = null!;
+    public virtual DbSet<Teacher> Teachers { get; set; } = null!;
+    public virtual DbSet<User> Users { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,9 +27,7 @@ public partial class Mvc6DbContext : DbContext
         modelBuilder.Entity<Course>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Courses__3214EC079A82F15A");
-
             entity.HasIndex(e => e.Description, "IX_Courses_Description");
-
             entity.Property(e => e.Description).HasMaxLength(50);
 
             entity.HasOne(d => d.Teacher).WithMany(p => p.Courses)
@@ -59,13 +57,9 @@ public partial class Mvc6DbContext : DbContext
         modelBuilder.Entity<Student>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Students__3214EC075729A0C6");
-
             entity.HasIndex(e => e.Institution, "IX_Students_Institution");
-
             entity.HasIndex(e => e.UserId, "IX_Students_UserId").IsUnique();
-
             entity.HasIndex(e => e.Am, "IX_Students_ΑΜ").IsUnique();
-
             entity.Property(e => e.Am)
                 .HasMaxLength(10)
                 .HasColumnName("AM");
@@ -80,11 +74,8 @@ public partial class Mvc6DbContext : DbContext
         modelBuilder.Entity<Teacher>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Teachers__3214EC072F6B5F5E");
-
             entity.HasIndex(e => e.Institution, "IX_Teachers_Institution");
-
             entity.HasIndex(e => e.UserId, "IX_Teachers_UserId").IsUnique();
-
             entity.Property(e => e.Institution).HasMaxLength(50);
             entity.Property(e => e.PhoneNumber).HasMaxLength(20);
 
@@ -96,16 +87,13 @@ public partial class Mvc6DbContext : DbContext
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Users__3214EC071EDAA846");
-
             entity.HasIndex(e => e.Email, "IX_Users_Email").IsUnique();
-
             entity.HasIndex(e => e.Username, "IX_Users_Username").IsUnique();
-
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.Firstname).HasMaxLength(50);
             entity.Property(e => e.Lastname).HasMaxLength(50);
             entity.Property(e => e.Password).HasMaxLength(60);
-            entity.Property(e => e.UserRole).HasMaxLength(50);
+            entity.Property(e => e.UserRole).HasConversion<string>().HasMaxLength(50);
             entity.Property(e => e.Username).HasMaxLength(50);
         });
 
