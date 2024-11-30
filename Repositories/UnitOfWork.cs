@@ -12,7 +12,7 @@ namespace SchoolApp.Repositories
             _context = context;
         }
 
-        // public UserRepository UserRepository => new(_context);  ToDo
+        public UserRepository UserRepository => new(_context);
 
         public TeacherRepository TeacherRepository => new(_context);
 
