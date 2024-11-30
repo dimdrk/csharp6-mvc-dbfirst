@@ -11,14 +11,11 @@ namespace SchoolApp.Repositories
         {
             _context = context;
         }
-
-        public UserRepository UserRepository => new(_context);
-
+                
         public TeacherRepository TeacherRepository => new(_context);
-
         public StudentRepository StudentRepository => new(_context);
-
         public CourseRepository CourseRepository => new(_context);
+        public UserRepository UserRepository => new(_context);
 
         public async Task<bool> SaveAsync()
         {
