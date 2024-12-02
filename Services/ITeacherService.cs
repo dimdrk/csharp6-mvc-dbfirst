@@ -6,8 +6,8 @@ namespace SchoolApp.Services
     public interface ITeacherService
     {
         Task SignUpUserAsync(TeacherSignupDTO request);
-        Task<List<UserLoginDTO>> GetAllUsersTeachersAsync();
-        Task<List<UserLoginDTO>> GetAllUsersTeachersAsync(int pageNumber, int pageSize);
+        Task<List<User>> GetAllUsersTeachersAsync();
+        Task<List<User>> GetAllUsersTeachersAsync(int pageNumber, int pageSize);
         Task<int> GetTeacherCountAsync();
         Task<User?> GetTeacherByUsernameAsync(string username);
     }
