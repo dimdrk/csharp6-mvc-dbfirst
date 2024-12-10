@@ -16,7 +16,7 @@ namespace SchoolApp
             builder.Services.AddDbContext<Mvc6DbContext>(options => options.UseSqlServer(connectionString));
             builder.Services.AddRepositories();
 
-            builder.Services.AddAutoMapper
+            // builder.Services.AddAutoMapper
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
