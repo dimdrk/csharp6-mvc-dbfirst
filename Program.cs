@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using SchoolApp.Configuration;
 using SchoolApp.Data;
 using SchoolApp.Repositories;
+using SchoolApp.Services;
+using Serilog;
 
 namespace SchoolApp
 {
@@ -14,12 +18,27 @@ namespace SchoolApp
 
             // AddDbContext is scoped - per request a new instance of dbcontext is created.
             builder.Services.AddDbContext<Mvc6DbContext>(options => options.UseSqlServer(connectionString));
-            builder.Services.AddRepositories();
+            
+            builder.Host.UseSerilog((context, config) =>
+            {
+                config.ReadFrom.Configuration(context.Configuration);
+            });
 
-            // builder.Services.AddAutoMapper
+            builder.Services.AddAutoMapper(typeof(MapperConfig));
+
+            builder.Services.AddRepositories();
+            builder.Services.AddScoped<IApplicationService, ApplicationService>();
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option =>
+                {
+                    option.LoginPath = "/User/Login";
+                    option.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                });
 
             var app = builder.Build();
 
@@ -40,7 +59,7 @@ namespace SchoolApp
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=User}/{action=Login}/{id?}");     // landing page -> "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }
