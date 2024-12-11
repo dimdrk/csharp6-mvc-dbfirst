@@ -26,15 +26,19 @@ namespace SchoolApp.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(TeacherSignupDTO teacherSignupDTO)
         {
+            //if (!ModelState.IsValid)
+            //{
+            //    foreach (var entry in ModelState.Values)
+            //    {
+            //        foreach (var error in entry.Errors)
+            //        {
+            //            ErrorArray.Add(new Error("", error.ErrorMessage, ""));
+            //        }
+            //    }
+            //    return View(teacherSignupDTO);
+            //}
             if (!ModelState.IsValid)
             {
-                foreach (var entry in ModelState.Values)
-                {
-                    foreach (var error in entry.Errors)
-                    {
-                        ErrorArray.Add(new Error("", error.ErrorMessage, ""));
-                    }
-                }
                 return View(teacherSignupDTO);
             }
 

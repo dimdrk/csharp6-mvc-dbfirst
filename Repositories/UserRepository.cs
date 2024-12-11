@@ -13,9 +13,19 @@ namespace SchoolApp.Repositories
 
         public async Task<User?> GetUserAsync(string username, string password)
         {
-            return await context.Users.FirstOrDefaultAsync(u => 
-            (u.Username == username || u.Email == username) &&
-            EncryptionUtil.IsValidPassword(password, u.Password));
+            //return await context.Users.FirstOrDefaultAsync(u => 
+            //(u.Username == username || u.Email == username) &&
+            //EncryptionUtil.IsValidPassword(password, u.Password));
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Username == username || x.Email == username);
+            if (user == null)
+            {
+                return null;
+            }
+            if (!EncryptionUtil.IsValidPassword(password, user.Password))
+            {
+                return null;
+            }
+            return user;
         }
 
         public async Task<List<User>> GetAllUsersFilteredPaginatedAsync(int pageNumber, int pageSize,
